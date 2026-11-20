@@ -40,3 +40,10 @@ Open **Actions → Android APK Build**, wait for a successful run, then download
 - `Reimbursement-Claim-admin-debug-apk`
 
 Minimum Android version: Android 8.0 (API 26).
+
+
+## Deploy the signaling service
+
+Use the [Deploy this backend to Render](https://dashboard.render.com/blueprint/new?repo=https://github.com/Sachinrajpooot/Reimbursement-Claim) link. Sign in to your own Render account, connect GitHub if asked, review the service, and approve **Deploy Blueprint**. Render performs the account-side deployment after your approval.
+
+The backend is only the pairing/signaling foundation. The Android apps still need their WebRTC screen-sharing implementation and explicit on-device consent before remote support can work.
