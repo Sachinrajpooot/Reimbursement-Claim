@@ -170,7 +170,19 @@ public class LabActivity extends Activity {
             addLog("Version: "+(Build.VERSION.SDK_INT>=28?info.getLongVersionCode():info.versionCode));
             String[] perms=info.requestedPermissions;
             addLog("Declared permissions: "+(perms==null?0:perms.length));
-            if(perms!=null)for(String p:perms)addLog("APK permission: "+p);
+            int risk=0;
+            if(perms!=null)for(String p:perms) {
+                addLog("APK permission: "+p);
+                if(p.contains("READ_SMS")||p.contains("SEND_SMS")||p.contains("RECEIVE_SMS")||
+                   p.contains("READ_CALL_LOG")||p.contains("WRITE_CALL_LOG")||
+                   p.contains("SYSTEM_ALERT_WINDOW")||p.contains("REQUEST_INSTALL_PACKAGES")||
+                   p.contains("BIND_ACCESSIBILITY_SERVICE")||p.contains("ACCESS_BACKGROUND_LOCATION")) risk+=3;
+                else if(p.contains("CAMERA")||p.contains("RECORD_AUDIO")||p.contains("ACCESS_FINE_LOCATION")||
+                        p.contains("READ_CONTACTS")||p.contains("READ_PHONE_STATE")||p.contains("READ_EXTERNAL_STORAGE")) risk+=2;
+                else if(p.contains("INTERNET")) risk+=1;
+            }
+            String riskLabel=risk>=8?"Elevated permission footprint":risk>=4?"Review permissions carefully":"Lower declared permission footprint";
+            addLog("Permission footprint score: "+risk+" ("+riskLabel+"). This is a heuristic, not a malware verdict.");
             if(Build.VERSION.SDK_INT>=28&&info.signingInfo!=null) {
                 android.content.pm.Signature[] sigs=info.signingInfo.getApkContentsSigners();
                 if(sigs!=null&&sigs.length>0)addLog("Signer SHA-256: "+sha256(sigs[0].toByteArray()));
