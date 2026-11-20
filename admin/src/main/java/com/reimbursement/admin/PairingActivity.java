@@ -13,6 +13,7 @@ public class PairingActivity extends Activity {
     private WebSocket socket;
     private TextView status;
     private EditText code;
+    private Button disconnect;
 
     @Override public void onCreate(Bundle b) {
         super.onCreate(b);
@@ -21,8 +22,10 @@ public class PairingActivity extends Activity {
         TextView info=new TextView(this);info.setText("Enter the six-digit code shown on the client phone. The client owner must approve any screen-sharing prompt separately.");info.setTextSize(15);info.setTextColor(Color.DKGRAY);info.setPadding(0,20,0,20);root.addView(info);
         code=new EditText(this);code.setHint("6-digit pairing code");code.setInputType(2);code.setGravity(Gravity.CENTER);code.setTextSize(24);root.addView(code,new LinearLayout.LayoutParams(-1,150));
         Button connect=new Button(this);connect.setText("CONNECT");root.addView(connect);
+        disconnect=new Button(this);disconnect.setText("END SESSION");disconnect.setEnabled(false);root.addView(disconnect);
         status=new TextView(this);status.setText("Not connected");status.setTextColor(Color.DKGRAY);status.setPadding(0,22,0,0);root.addView(status);
         connect.setOnClickListener(v->join());
+        disconnect.setOnClickListener(v->{ if(socket!=null){socket.send("{\"type\":\"end-session\"}");socket.close(1000,"Ended by admin");} status.setText("Session ended by admin.");disconnect.setEnabled(false); });
         setContentView(root);
     }
     private void join(){
@@ -33,12 +36,12 @@ public class PairingActivity extends Activity {
         socket=http.newWebSocket(req,new WebSocketListener(){
             @Override public void onOpen(WebSocket ws,Response response){socket=ws;ws.send("{\"type\":\"join-session\",\"code\":\""+pin+"\"}");}
             @Override public void onMessage(WebSocket ws,String text){runOnUiThread(()->{
-                if(text.contains("\"paired\""))status.setText("Paired successfully. Live screen viewing is not implemented yet.");
+                if(text.contains("\"paired\"")){status.setText("Paired successfully. Live screen viewing is not implemented yet.");disconnect.setEnabled(true);}
                 else if(text.contains("\"error\""))status.setText("Server: "+text);
                 else if(text.contains("\"session-ended\""))status.setText("Client ended the session.");
             });}
             @Override public void onFailure(WebSocket ws,Throwable t,Response r){runOnUiThread(()->status.setText("Connection failed: "+t.getMessage()));}
-            @Override public void onClosed(WebSocket ws,int c,String reason){runOnUiThread(()->status.setText("Disconnected."));}
+            @Override public void onClosed(WebSocket ws,int c,String reason){runOnUiThread(()->{status.setText("Disconnected.");disconnect.setEnabled(false);});}
         });
     }
     @Override protected void onDestroy(){if(socket!=null)socket.close(1000,"Admin closed");if(http!=null)http.dispatcher().executorService().shutdown();super.onDestroy();}
