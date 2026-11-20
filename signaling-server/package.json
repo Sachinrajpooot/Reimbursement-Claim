@@ -1,0 +1,16 @@
+{
+  "name": "reimbursement-claim-signaling",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Short-lived pairing and WebRTC signaling relay for an explicitly accepted support session.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
