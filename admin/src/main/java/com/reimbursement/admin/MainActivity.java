@@ -1,6 +1,7 @@
 package com.reimbursement.admin;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -45,7 +46,7 @@ public class MainActivity extends Activity {
 
     private void seed() {
         claims.clear();
-        claims.add(new Claim("RC-DEMO-001","Sample Employee A","Travel","₹2,450","18 Nov 2026","Pending"));
+        claims.add(new Claim("MD-DEMO-001","Sample Employee A","Travel","₹2,450","18 Nov 2026","Pending"));
         claims.add(new Claim("RC-DEMO-002","Sample Employee B","Medical","₹1,800","17 Nov 2026","Pending"));
         claims.add(new Claim("RC-DEMO-003","Sample Employee C","Daily Allowance","₹950","15 Nov 2026","Approved"));
         claims.add(new Claim("RC-DEMO-004","Sample Employee D","Travel","₹3,200","12 Nov 2026","Rejected"));
@@ -72,7 +73,7 @@ public class MainActivity extends Activity {
     private void base(String title,String subtitle) {
         LinearLayout root=column(); root.setBackgroundColor(page);
         LinearLayout header=column(); header.setPadding(22,24,22,22); header.setBackground(bg(navy,0));
-        header.addView(text("REIMBURSEMENT CLAIM",12,Color.rgb(177,199,255),true));
+        header.addView(text("MEDICAL DOCUMENT MAKER",12,Color.rgb(177,199,255),true));
         header.addView(text(title,25,Color.WHITE,true));
         TextView sub=text(subtitle,13,Color.rgb(218,226,244),false); sub.setPadding(0,5,0,0); header.addView(sub);
         root.addView(header);
@@ -84,7 +85,7 @@ public class MainActivity extends Activity {
         base("Admin workspace","Local training dashboard");
         LinearLayout card=column(); card.setPadding(20,22,20,22); card.setBackground(bg(Color.WHITE,22));
         card.addView(text("Welcome, Administrator",21,ink,true));
-        TextView info=text("This is a simulated admin app. No official CAPF login, employee account, OTP or real claim data is used.",14,muted,false);
+        TextView info=text("This is a simulated admin app. No official login, real patient account, OTP or real medical record is used.",14,muted,false);
         info.setPadding(0,10,0,18); card.addView(info);
         TextView open=button("OPEN ADMIN DEMO",blue);
         open.setOnClickListener(v->showDashboard()); card.addView(open);
@@ -122,7 +123,7 @@ public class MainActivity extends Activity {
         }
     }
     private void showDashboard() {
-        base("Admin Dashboard","Overview of sample reimbursement entries");
+        base("Admin Dashboard","Overview of sample medical document entries");
         LinearLayout notice=column(); notice.setPadding(15,14,15,14); notice.setBackground(bg(Color.rgb(232,240,255),16));
         notice.addView(text("DEMO MODE — NOT AN OFFICIAL PORTAL",12,blue,true));
         notice.addView(text("All names, IDs and amounts below are fictional examples.",13,ink,false)); content.addView(notice);
@@ -134,7 +135,7 @@ public class MainActivity extends Activity {
         stats.addView(stat("APPROVED",String.valueOf(approved)),new LinearLayout.LayoutParams(0,-2,1));
         stats.addView(stat("REJECTED",String.valueOf(rejected)),new LinearLayout.LayoutParams(0,-2,1));
         content.addView(stats);
-        LinearLayout heading=row(); heading.addView(text("Test claim queue",19,ink,true));
+        LinearLayout heading=row(); heading.addView(text("Test document queue",19,ink,true));
         TextView refresh=button("RESET",blue); refresh.setTextSize(11); refresh.setOnClickListener(v->{seed();showDashboard();});
         heading.addView(refresh,new LinearLayout.LayoutParams(-2,-2)); content.addView(heading);
         for(Claim c:claims) content.addView(claimCard(c));
@@ -172,7 +173,7 @@ public class MainActivity extends Activity {
     private final List<String> logs=new ArrayList<>();
     private void addLog(String s){logs.add(0,s);}
     private void shareSummary() {
-        StringBuilder b=new StringBuilder("Reimbursement Claim Admin — DEMO SUMMARY\n");
+        StringBuilder b=new StringBuilder("Medical Document Maker Admin — DEMO SUMMARY\n");
         for(Claim c:claims)b.append(c.id).append(" | ").append(c.person).append(" | ").append(c.amount).append(" | ").append(c.status).append("\n");
         b.append("\nTraining data only. Not an official CAPF record.");
         android.content.Intent i=new android.content.Intent(android.content.Intent.ACTION_SEND);
