@@ -86,6 +86,9 @@ wss.on("connection", (ws) => {
     }
 
     if (msg.type === "join-session") {
+      const forwarded = String(ws._socket?.remoteAddress || "unknown");
+      const ip = forwarded.replace(/^::ffff:/, "");
+      if (!allowJoinAttempt(ip)) return send(ws, { type: "error", message: "Too many pairing attempts. Try again in one minute." });
       const code = String(msg.code || "");
       const room = rooms.get(code);
       if (!/^\d{6}$/.test(code) || !room) return send(ws, { type: "error", message: "Pairing code is invalid or expired" });
