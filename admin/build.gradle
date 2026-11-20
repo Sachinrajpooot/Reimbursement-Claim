@@ -1,0 +1,14 @@
+plugins {
+    id 'com.android.application'
+}
+android {
+    namespace 'com.reimbursement.admin'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.reimbursement.claim.admin'
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName '1.0.0'
+    }
+}
