@@ -8,6 +8,16 @@ const PORT = Number(process.env.PORT || 8080);
 const PAIR_TTL_MS = 5 * 60 * 1000;
 const MAX_MESSAGE_BYTES = 64 * 1024;
 const rooms = new Map();
+const joinAttempts = new Map();
+
+function allowJoinAttempt(ip) {
+  const now = Date.now();
+  const entry = joinAttempts.get(ip) || { start: now, count: 0 };
+  if (now - entry.start > 60_000) { entry.start = now; entry.count = 0; }
+  entry.count += 1;
+  joinAttempts.set(ip, entry);
+  return entry.count <= 10;
+}
 
 const server = http.createServer((req, res) => {
   if (req.url === "/health") {
