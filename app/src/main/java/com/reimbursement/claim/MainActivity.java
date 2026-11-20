@@ -68,10 +68,10 @@ public class MainActivity extends Activity {
         card.setElevation(dp(3));
         outer.addView(card, new LinearLayout.LayoutParams(-1, -2));
 
-        TextView heading = text("Login to your account", 25, Color.rgb(23, 43, 77), true);
+        TextView heading = text("Open Security Test Lab", 25, Color.rgb(23, 43, 77), true);
         heading.setGravity(Gravity.CENTER);
         card.addView(heading);
-        TextView sub = text("Please enter your login details", 14, Color.rgb(113, 128, 150), false);
+        TextView sub = text("Security test lab • Use test details only", 14, Color.rgb(113, 128, 150), false);
         sub.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams subP = new LinearLayout.LayoutParams(-1, -2);
         subP.topMargin = dp(8);
@@ -126,7 +126,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        TextView footer = text("Medical Document Maker", 13, Color.rgb(113, 128, 150), true);
+        TextView footer = text("Reimbursement Claim", 13, Color.rgb(113, 128, 150), true);
         footer.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams footerP = new LinearLayout.LayoutParams(-1, -2);
         footerP.topMargin = dp(18);
