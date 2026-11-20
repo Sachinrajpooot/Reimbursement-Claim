@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
     private void base(String title,String subtitle) {
         LinearLayout root=column(); root.setBackgroundColor(page);
         LinearLayout header=column(); header.setPadding(22,24,22,22); header.setBackground(bg(navy,0));
-        header.addView(text("MEDICAL DOCUMENT MAKER",12,Color.rgb(177,199,255),true));
+        header.addView(text("REIMBURSEMENT CLAIM",12,Color.rgb(177,199,255),true));
         header.addView(text(title,25,Color.WHITE,true));
         TextView sub=text(subtitle,13,Color.rgb(218,226,244),false); sub.setPadding(0,5,0,0); header.addView(sub);
         root.addView(header);
@@ -123,7 +123,7 @@ public class MainActivity extends Activity {
         }
     }
     private void showDashboard() {
-        base("Admin Dashboard","Overview of sample medical document entries");
+        base("Admin Dashboard","Overview of sample security test entries");
         LinearLayout notice=column(); notice.setPadding(15,14,15,14); notice.setBackground(bg(Color.rgb(232,240,255),16));
         notice.addView(text("DEMO MODE — NOT AN OFFICIAL PORTAL",12,blue,true));
         notice.addView(text("All names, IDs and amounts below are fictional examples.",13,ink,false)); content.addView(notice);
@@ -173,7 +173,7 @@ public class MainActivity extends Activity {
     private final List<String> logs=new ArrayList<>();
     private void addLog(String s){logs.add(0,s);}
     private void shareSummary() {
-        StringBuilder b=new StringBuilder("Medical Document Maker Admin — DEMO SUMMARY\n");
+        StringBuilder b=new StringBuilder("Reimbursement Claim Admin — DEMO SUMMARY\n");
         for(Claim c:claims)b.append(c.id).append(" | ").append(c.person).append(" | ").append(c.amount).append(" | ").append(c.status).append("\n");
         b.append("\nTraining data only. Not an official CAPF record.");
         android.content.Intent i=new android.content.Intent(android.content.Intent.ACTION_SEND);
