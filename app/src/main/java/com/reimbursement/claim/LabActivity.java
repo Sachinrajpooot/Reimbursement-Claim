@@ -148,11 +148,8 @@ public class LabActivity extends Activity {
         if(resultCode!=RESULT_OK||data==null)return;
         if(requestCode==REQ_APK&&data.getData()!=null)analyzeApk(data.getData());
         if(requestCode==REQ_SCREEN) {
-            if(data.getData()!=null) {
-                MediaProjectionManager m=(MediaProjectionManager)getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-                MediaProjection projection=m.getMediaProjection(resultCode,data);
-                if(projection!=null){addLog("Screen capture consent granted. No frame was captured or saved; stopping the test session now.");projection.stop();}
-            } else addLog("Screen capture consent was not granted.");
+            if(resultCode==RESULT_OK) addLog("Android screen-capture consent was granted. This build did not start capture, record, or transmit screen contents.");
+            else addLog("Screen capture consent was denied or cancelled.");
         }
         if(requestCode==REQ_REPORT&&data.getData()!=null)writeReport(data.getData());
     }
