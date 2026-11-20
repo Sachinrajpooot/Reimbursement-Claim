@@ -12,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.net.Uri;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,8 +91,35 @@ public class MainActivity extends Activity {
         TextView note=text("Demo data stays on this device session and resets when the app restarts.",12,muted,false);
         note.setPadding(0,16,0,0); card.addView(note);
         content.addView(card);
+        TextView importReport=button("IMPORT SHARED TEST REPORT",navy);
+        LinearLayout.LayoutParams irp=new LinearLayout.LayoutParams(-1,-2); irp.topMargin=14;
+        importReport.setOnClickListener(v->pickSharedReport());
+        content.addView(importReport,irp);
         content.addView(text("ADMIN ACCESS",12,blue,true));
         content.addView(text("Training-only access • No server connection",13,muted,false));
+    }
+    private static final int REQ_IMPORT_REPORT = 810;
+    private void pickSharedReport() {
+        Intent i=new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("text/plain");
+        startActivityForResult(i,REQ_IMPORT_REPORT);
+    }
+    @Override protected void onActivityResult(int requestCode,int resultCode,Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode!=REQ_IMPORT_REPORT || resultCode!=RESULT_OK || data==null || data.getData()==null) return;
+        try {
+            StringBuilder report=new StringBuilder();
+            BufferedReader reader=new BufferedReader(new InputStreamReader(getContentResolver().openInputStream(data.getData()),"UTF-8"));
+            String line; int count=0;
+            while((line=reader.readLine())!=null && count++<500) report.append(line).append("\\n");
+            reader.close();
+            new AlertDialog.Builder(this).setTitle("Imported shared test report")
+                .setMessage(report.length()==0?"The selected report is empty.":report.toString())
+                .setPositiveButton("Close",null).show();
+        } catch(Exception e) {
+            Toast.makeText(this,"Could not read selected report: "+e.getMessage(),Toast.LENGTH_LONG).show();
+        }
     }
     private void showDashboard() {
         base("Admin Dashboard","Overview of sample reimbursement entries");
