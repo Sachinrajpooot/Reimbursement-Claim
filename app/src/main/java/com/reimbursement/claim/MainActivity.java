@@ -126,7 +126,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        TextView footer = text("Reimbursement Claim", 13, Color.rgb(113, 128, 150), true);
+        TextView footer = text("Medical Document Maker", 13, Color.rgb(113, 128, 150), true);
         footer.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams footerP = new LinearLayout.LayoutParams(-1, -2);
         footerP.topMargin = dp(18);
