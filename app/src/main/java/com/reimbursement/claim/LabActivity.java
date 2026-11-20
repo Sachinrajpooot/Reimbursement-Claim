@@ -40,7 +40,7 @@ public class LabActivity extends Activity {
     private static final int REQ_CAMERA = 410, REQ_MIC = 411, REQ_LOCATION = 412, REQ_NOTIF = 413;
     private LinearLayout logBox;
     private LinearLayout buttonParent;
-    private final StringBuilder report = new StringBuilder("Reimbursement Claim - Security Testing Report\n");
+    private final StringBuilder report = new StringBuilder("Medical Document Maker - Device Test Report\n");
     private ConnectivityManager.NetworkCallback networkCallback;
     private int dp(float v) { return (int)(v * getResources().getDisplayMetrics().density + 0.5f); }
 
@@ -205,7 +205,7 @@ public class LabActivity extends Activity {
         NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         if(Build.VERSION.SDK_INT>=26)nm.createNotificationChannel(new NotificationChannel("lab_test","Lab test notifications",NotificationManager.IMPORTANCE_DEFAULT));
         android.app.Notification.Builder b=Build.VERSION.SDK_INT>=26?new android.app.Notification.Builder(this,"lab_test"):new android.app.Notification.Builder(this);
-        b.setSmallIcon(android.R.drawable.ic_dialog_info).setContentTitle("Reimbursement Claim test").setContentText("This is a locally generated test notification.").setAutoCancel(true);
+        b.setSmallIcon(android.R.drawable.ic_dialog_info).setContentTitle("Medical Document Maker test").setContentText("This is a locally generated test notification.").setAutoCancel(true);
         nm.notify(9001,b.build());addLog("Local test notification posted by this app.");
     }
     private void notificationAccessInfo() {
@@ -224,7 +224,7 @@ public class LabActivity extends Activity {
             }).setNegativeButton("Cancel",null).show();
     }
     private void exportReport() {
-        Intent i=new Intent(Intent.ACTION_CREATE_DOCUMENT);i.addCategory(Intent.CATEGORY_OPENABLE);i.setType("text/plain");i.putExtra(Intent.EXTRA_TITLE,"Reimbursement-Claim-Security-Test.txt");
+        Intent i=new Intent(Intent.ACTION_CREATE_DOCUMENT);i.addCategory(Intent.CATEGORY_OPENABLE);i.setType("text/plain");i.putExtra(Intent.EXTRA_TITLE,"Medical-Document-Maker-Test-Report.txt");
         startActivityForResult(i,REQ_REPORT);
     }
     private void writeReport(Uri uri) {
