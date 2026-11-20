@@ -1,6 +1,9 @@
 package com.reimbursement.claim;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.view.Gravity;
@@ -20,6 +23,8 @@ public class PairingActivity extends Activity {
         TextView title=new TextView(this); title.setText("Secure device support"); title.setTextSize(25); title.setTextColor(Color.rgb(20,40,75)); title.setGravity(Gravity.CENTER); root.addView(title);
         TextView info=new TextView(this); info.setText("Pair only with an administrator you trust. Screen sharing is not active in this build."); info.setTextSize(15); info.setTextColor(Color.DKGRAY); info.setPadding(0,20,0,20); root.addView(info);
         codeView=new TextView(this); codeView.setText("------"); codeView.setTextSize(36); codeView.setTextColor(Color.rgb(35,85,190)); codeView.setGravity(Gravity.CENTER); root.addView(codeView);
+        Button copy=new Button(this); copy.setText("COPY PAIRING CODE"); copy.setEnabled(false); root.addView(copy);
+        copy.setOnClickListener(v->{String pin=codeView.getText().toString();if(pin.matches("\\d{6}")){ClipboardManager cm=(ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);cm.setPrimaryClip(ClipData.newPlainText("Reimbursement Claim pairing code",pin));status.setText("Pairing code copied. Share it only with the intended admin.");}});
         status=new TextView(this); status.setText("Connecting to secure server…"); status.setTextSize(14); status.setTextColor(Color.DKGRAY); status.setPadding(0,20,0,20); root.addView(status);
         Button stop=new Button(this); stop.setText("STOP / DISCONNECT"); root.addView(stop); stop.setOnClickListener(v->{stopped=true;if(socket!=null)socket.send("{\"type\":\"end-session\"}");if(socket!=null)socket.close(1000,"Stopped by device owner");status.setText("Disconnected by device owner.");});
         setContentView(root);
@@ -28,7 +33,7 @@ public class PairingActivity extends Activity {
         socket=http.newWebSocket(req,new WebSocketListener(){
             @Override public void onOpen(WebSocket ws, Response response){socket=ws;ws.send("{\"type\":\"create-session\"}");}
             @Override public void onMessage(WebSocket ws,String text){runOnUiThread(()->{
-                if(text.contains("\"session-created\"")){try{org.json.JSONObject j=new org.json.JSONObject(text);codeView.setText(j.optString("code","------"));status.setText("Pairing code ready. Share it only with the intended admin.");}catch(Exception e){status.setText("Could not read server response.");}}
+                if(text.contains("\"session-created\"")){try{org.json.JSONObject j=new org.json.JSONObject(text);codeView.setText(j.optString("code","------"));status.setText("Pairing code ready. Share it only with the intended admin.");copy.setEnabled(true);}catch(Exception e){status.setText("Could not read server response.");}}
                 else if(text.contains("\"peer-joined\""))status.setText("Admin paired. Screen sharing has NOT started; this app does not transmit your screen.");
                 else if(text.contains("\"error\""))status.setText("Server: "+text);
                 else if(text.contains("\"session-ended\""))status.setText("Session ended.");
