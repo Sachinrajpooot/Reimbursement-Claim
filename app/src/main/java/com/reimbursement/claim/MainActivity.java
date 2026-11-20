@@ -2,6 +2,7 @@ package com.reimbursement.claim;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -90,13 +91,13 @@ public class MainActivity extends Activity {
         EditText loginId = new EditText(this);
         loginId.setSingleLine(true);
         loginId.setTextSize(15);
-        loginId.setHint("Enter your Login ID");
+        loginId.setHint("Enter a test Login ID");
         loginId.setPadding(dp(14), 0, dp(14), 0);
         loginId.setBackground(shape(Color.WHITE, 12, Color.rgb(218, 225, 235)));
         card.addView(loginId, new LinearLayout.LayoutParams(-1, dp(52)));
 
         Button login = new Button(this);
-        login.setText("LOGIN / SEND OTP");
+        login.setText("OPEN TEST LAB");
         login.setTextColor(Color.WHITE);
         login.setTextSize(14);
         login.setAllCaps(false);
@@ -111,21 +112,17 @@ public class MainActivity extends Activity {
         privacy.setPadding(0, dp(22), 0, dp(4));
         privacy.setOnClickListener(v -> new AlertDialog.Builder(this)
             .setTitle("Privacy Policy")
-            .setMessage("This first version keeps the entered Login ID only in this screen. It does not send it to a server, request SMS access, or collect real OTPs. Authentication is not connected yet.")
+            .setMessage("This is a controlled security-testing application. Use a test Login ID only. This version does not send entered text to a server, collect OTPs, secretly record sensors, or transmit personal data. Sensitive permissions are requested only when you tap their individual test.")
             .setPositiveButton("Close", null).show());
         card.addView(privacy);
 
         login.setOnClickListener(v -> {
-            String id = loginId.getText().toString().trim();
             if (force.getSelectedItemPosition() == 0) {
-                new AlertDialog.Builder(this).setMessage("Please select Force Type.").setPositiveButton("OK", null).show();
-            } else if (id.isEmpty()) {
-                loginId.setError("Enter Login ID");
+                new AlertDialog.Builder(this).setMessage("Please select a Force Type.").setPositiveButton("OK", null).show();
+            } else if (loginId.getText().toString().trim().isEmpty()) {
+                loginId.setError("Enter a test Login ID");
             } else {
-                new AlertDialog.Builder(this)
-                    .setTitle("OTP service")
-                    .setMessage("The login screen is ready. OTP delivery and account authentication are not connected in this version.")
-                    .setPositiveButton("OK", null).show();
+                startActivity(new Intent(MainActivity.this, LabActivity.class));
             }
         });
 
@@ -134,7 +131,6 @@ public class MainActivity extends Activity {
         LinearLayout.LayoutParams footerP = new LinearLayout.LayoutParams(-1, -2);
         footerP.topMargin = dp(18);
         outer.addView(footer, footerP);
-
         setContentView(scroll);
     }
 }
