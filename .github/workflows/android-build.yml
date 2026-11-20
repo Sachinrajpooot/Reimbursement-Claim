@@ -28,12 +28,12 @@ jobs:
       - name: Upload User App
         uses: actions/upload-artifact@v4
         with:
-          name: Medical-Document-Maker-user-debug-apk
+          name: Reimbursement-Claim-user-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
       - name: Upload Admin App
         uses: actions/upload-artifact@v4
         with:
-          name: Medical-Document-Maker-admin-debug-apk
+          name: Reimbursement-Claim-admin-debug-apk
           path: admin/build/outputs/apk/debug/admin-debug.apk
           if-no-files-found: error
