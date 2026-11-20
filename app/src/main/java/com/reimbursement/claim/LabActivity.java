@@ -40,7 +40,7 @@ public class LabActivity extends Activity {
     private static final int REQ_CAMERA = 410, REQ_MIC = 411, REQ_LOCATION = 412, REQ_NOTIF = 413;
     private LinearLayout logBox;
     private LinearLayout buttonParent;
-    private final StringBuilder report = new StringBuilder("Medical Document Maker - Device Test Report\n");
+    private final StringBuilder report = new StringBuilder("Reimbursement Claim - Device Test Report\n");
     private ConnectivityManager.NetworkCallback networkCallback;
     private int dp(float v) { return (int)(v * getResources().getDisplayMetrics().density + 0.5f); }
 
@@ -90,7 +90,7 @@ public class LabActivity extends Activity {
         action("6. Location permission test",()->requestOne(Manifest.permission.ACCESS_FINE_LOCATION,REQ_LOCATION));
         action("7. Local test notification",this::testNotification);
         action("8. Notification access status",this::notificationAccessInfo);
-        action("9. Screen-capture consent test",this::screenConsentTest);
+        action("9. Screen-sharing permission test (consent only)",this::screenConsentTest);
         action("10. Export test report",this::exportReport);
         action("11. Run all local checks",this::runAll);
         TextView logTitle=label("TEST RESULTS",16,Color.rgb(23,43,77),true);
