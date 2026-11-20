@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: reimbursement-claim-signaling
+    runtime: node
+    rootDir: signaling-server
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
