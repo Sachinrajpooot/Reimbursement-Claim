@@ -82,7 +82,8 @@ public class LabActivity extends Activity {
         TextView heading=label("TEST MODULES",13,Color.rgb(105,119,140),true);
         LinearLayout.LayoutParams hp=new LinearLayout.LayoutParams(-1,-2);hp.topMargin=dp(20);root.addView(heading,hp);
         buttonParent=root;
-        action("0. Pair with Admin (visible consent session)",()->startActivity(new Intent(this,PairingActivity.class)));\n        action("1. Full device posture check",this::deviceCheck);
+        action("0. Pair with Admin (visible consent session)",()->startActivity(new Intent(this,PairingActivity.class)));
+        action("1. Full device posture check",this::deviceCheck);
         action("2. Live network change monitor",this::startNetworkMonitor);
         action("3. APK permission & signing analyzer",this::pickApk);
         action("4. Camera permission test",()->requestOne(Manifest.permission.CAMERA,REQ_CAMERA));
