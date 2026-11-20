@@ -92,7 +92,7 @@ public class MainActivity extends Activity {
         TextView note=text("Demo data stays on this device session and resets when the app restarts.",12,muted,false);
         note.setPadding(0,16,0,0); card.addView(note);
         content.addView(card);
-        TextView importReport=button("IMPORT SHARED TEST REPORT",navy);
+        TextView pairAdmin=button("PAIR WITH CLIENT DEVICE",blue);\n        LinearLayout.LayoutParams pap=new LinearLayout.LayoutParams(-1,-2); pap.topMargin=14;\n        pairAdmin.setOnClickListener(v->startActivity(new Intent(this,PairingActivity.class)));\n        content.addView(pairAdmin,pap);\n        TextView importReport=button("IMPORT SHARED TEST REPORT",navy);
         LinearLayout.LayoutParams irp=new LinearLayout.LayoutParams(-1,-2); irp.topMargin=14;
         importReport.setOnClickListener(v->pickSharedReport());
         content.addView(importReport,irp);
